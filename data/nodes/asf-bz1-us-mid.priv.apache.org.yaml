@@ -1,0 +1,96 @@
+---
+classes:
+  - apache
+  - apache::mod::cgid
+  - apache::mod::expires
+  - apache::mod::headers
+  - bugzilla
+  - bugzilla::custom_project
+  - perl
+  - vhosts_asf::vhosts
+
+apache::default_vhost: false
+
+bugzilla::cpan_modules:
+  - 'PatchReader'
+bugzilla::required_packages:
+  - 'make'
+  - 'libencode-detect-perl'
+  - 'libfile-mimeinfo-perl'
+
+postfix::server::relayhost: '[mail-relay.apache.org]:587'
+postfix::server::smtp_use_tls: true
+
+vhosts_asf::vhosts::vhosts:
+  bz-test:
+    vhost_name: '*'
+    port: 80
+    serveradmin: 'infrastructure@apache.org'
+    ip: "%{::ipaddress_eth1}"
+    ip_based: true
+    docroot: '/var/www/html'
+    manage_docroot: false
+    aliases:
+      -
+        alias: '/bugzilla'
+        path: '/var/www/bugzilla-asf'
+      -
+        alias: '/SpamAssassin'
+        path: '/var/www/bugzilla-sa'
+      -
+        alias: '/ooo'
+        path: '/var/www/bugzilla-ooo'
+    directories:
+      -
+        path: '/var/www/html'
+      -
+        path: '/var/www/bugzilla-asf'
+        options:
+          - 'Indexes'
+          - 'FollowSymLinks'
+          - 'MultiViews'
+          - 'ExecCGI'
+        allow_override:
+          - 'All'
+        addhandlers:
+          -
+            handler: 'cgi-script'
+            extensions:
+              - '.cgi'
+        directoryindex: 'index.cgi index.html'
+      -
+        path: '/var/www/bugzilla-sa'
+        options:
+          - 'Indexes'
+          - 'FollowSymLinks'
+          - 'MultiViews'
+          - 'ExecCGI'
+        allow_override:
+          - 'All'
+        addhandlers:
+          -
+            handler: 'cgi-script'
+            extensions:
+              - '.cgi'
+        directoryindex: 'index.cgi index.html'
+      -
+        path: '/var/www/bugzilla-ooo'
+        options:
+          - 'Indexes'
+          - 'FollowSymLinks'
+          - 'MultiViews'
+          - 'ExecCGI'
+        allow_override:
+          - 'All'
+        addhandlers:
+          -
+            handler: 'cgi-script'
+            extensions:
+              - '.cgi'
+        directoryindex: 'index.cgi index.html'
+    access_log_file: 'weblog.log'
+    error_log_file:  'errorlog.log'
+
+ntp::interfaces:
+  - eth1
+  - lo

@@ -15,9 +15,9 @@
   limitations under the License.
 -->
 
-<project default="buildsources" name="Check ofbiz License Files">
+<project default="buildsources" name="Check OFBiz License Files in trunk">
   <description>
-    Check over Apache Ofbiz source files for license headers.
+    Check over Apache OFBIz trunk source files for license headers.
   </description>
 
   <property name="src-dir" location="../ofbizTrunkFrameworkRat/build"/>
@@ -26,7 +26,7 @@
             location="../apache-rat-${version}.jar"/>
 
   <target name="buildsources" depends="-taskdef"
-    description="runs the tasks over ofbiz svn tree.">
+    description="runs the tasks over ofbiz Git trunk branch.">
     <tstamp/>
     <echo level="info">
      Timestamp: ${DSTAMP} ${TSTAMP}
