@@ -15,9 +15,9 @@
   limitations under the License.
 -->
 
-<project default="buildsources" name="Check ofbiz License Files">
+<project default="buildsources" name="Check OFBiz License Files in next release branch">
   <description>
-    Check over Apache Ofbiz source files for license headers.
+    Check over Apache OFBIz next release branch source files for license headers.
   </description>
 
   <property name="src-dir" location="../ofbizNextFrameworkRat/build"/>
